@@ -2,7 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import * as serviceWorker from './serviceWorker';
+import {createStore} from 'redux'
+
+function userList(state = [], action){
+  if(action.type === 'ADD_USER'){
+    return [
+      ...state,
+      action.payload
+    ]
+  }
+  return state
+}
+const store = createStore(userList)
+
+store.subscribe(()=>{
+  console.log('subscribe', store.getState())
+})
+
+store.dispatch({type: 'ADD_USER', payload: {name: 'Nik', id: 2, email: 'nik@mail.com'}})
+store.dispatch({type: 'ADD_USER', payload: {name: 'Tod', id: 3, email: 'tod@mail.com'}})
 
 ReactDOM.render(
   <React.StrictMode>
@@ -11,7 +29,3 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
