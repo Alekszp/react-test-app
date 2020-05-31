@@ -1,30 +1,41 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Router, Route, Redirect, Switch} from 'react-router-dom'
 import './index.css';
-import App from './App';
-import {createStore} from 'redux'
+import NotFoundPage from './NotFoundPage';
+import {createStore, applyMiddleware} from 'redux'
+import {Provider} from 'react-redux'
+import {composeWithDevTools} from 'redux-devtools-extension'
+import thunk from 'redux-thunk'
+import reducer from './reducers'
+import { createBrowserHistory } from "history";
 
-function userList(state = [], action){
-  if(action.type === 'ADD_USER'){
-    return [
-      ...state,
-      action.payload
-    ]
-  }
-  return state
-}
-const store = createStore(userList)
+import Header from './components/Header.js'
+import Footer from './components/Footer.js'
+import Users from './components/Users.js'
+import User from './components/User.js'
 
-store.subscribe(()=>{
-  console.log('subscribe', store.getState())
-})
-
-store.dispatch({type: 'ADD_USER', payload: {name: 'Nik', id: 2, email: 'nik@mail.com'}})
-store.dispatch({type: 'ADD_USER', payload: {name: 'Tod', id: 3, email: 'tod@mail.com'}})
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))
+const history = createBrowserHistory();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+    
+      <Router history={history}>
+        <div className='app'>
+          <Header {...history} />
+          <Switch>
+            <Route exact path='/' render={()=><Users />} />
+            <Route path='/user' render={({history})=><User {...history} />} />
+            <Route path="/404" render={()=><NotFoundPage />} />
+            <Redirect to="/404" />
+          </Switch>
+          <Footer />
+        </div>
+      </Router>
+     
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

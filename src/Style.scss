@@ -1,38 +1,268 @@
-.App {
+$base-menu-bg-color: #2b798e;
+$tabs-bg-color: #497d8b;
+$app-bg-color: #282c34;
+$button-bg-color: #860380;
+$base-menu-color: #dbdbdb;
+$base-list-color: #d1f508;
+$base-menu-inactive-color: #b8b6b6;
+
+@mixin button-default {
+  border: none;
+  padding: 5px;
+  background-color: $base-menu-bg-color;
+  color: $base-menu-color;
+  cursor: pointer;
+  font-size: 16px;
+  outline: none;
+  ;
+}
+
+
+
+.app {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+  background-color: $app-bg-color;
   min-height: 100vh;
+
+  .loader {
+    height: calc(100vh - 212px);
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .loader {
+      animation: App-logo-spin infinite 5s linear;
+    }
+  }
+
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  //header
+  .header {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    top: 0;
+    height: 50px;
+    background-color: $base-menu-bg-color;
+    color: $base-menu-color;
+    .backToListBtn {
+      @include button-default;
+      position: absolute;
+      left: 20px;
+      top: 12px;
+      background-color: $tabs-bg-color;
+    }
+  }
+
+  .footer {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    bottom: 0;
+    height: 50px;
+    background-color: $base-menu-bg-color;
+    color: $base-menu-color;
+  }
+
+  .users {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    height: calc(100vh - 100px);
+
+    ::-webkit-scrollbar-button {
+      background-repeat: no-repeat;
+      width: 5px;
+      height: 0px
+    }
+
+    ::-webkit-scrollbar-track {
+      background-color: #ecedee
+    }
+
+    ::-webkit-scrollbar-thumb {
+      -webkit-border-radius: 0px;
+      border-radius: 0px;
+      background-color: #6dc0c8;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: #56999f;
+    }
+
+    ::-webkit-resizer {
+      background-repeat: no-repeat;
+      width: 4px;
+      height: 0px
+    }
+
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .tabs {
+      .tab-items {
+        height: 50px;
+        border-bottom: 3px solid $tabs-bg-color;
+        color: $base-menu-color;
+        display: flex;
+        justify-content: center;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+
+      .tab-item {
+        padding: 0 10px;
+        display: flex;
+        align-self: center;
+        cursor: pointer;
+
+      }
+
+      .selected-tab-item {
+        @include button-default;
+      }
+
+      .inactive-tab-item {
+        padding: 5px 10px;
+        background-color: grey;
+        color: $base-menu-inactive-color;
+      }
+    }
+
+    .tabs-content {
+      width: 400px;
+
+      .search-field {
+        width: 100%;
+        height: 30px;
+        border: none;
+        border-bottom: 1px solid $tabs-bg-color;
+        outline: none;
+        background-color: $base-menu-color;
+        padding: 0;
+      }
+
+      .user-list {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: calc(100vh - 212px);
+        font-weight: 700;
+        overflow-y: auto;
+        .user-item {
+          padding: 2px 3px;
+          display: flex;
+          justify-content: space-between;
+          
+          a {
+            text-decoration: none;
+            display: flex;
+            color: $base-list-color;
+
+            .avatar {
+              border-radius: 50%;
+              margin-left: 5px;
+              margin-right: 5px;
+            }
+            .user-item-info {
+              width: 100%;
+              display: flex;
+              flex-direction: column;
+              align-items: start;
+              justify-content: center;
+              
+              .user-item-id {
+                display: flex;
+                font-size: 12px;
+                font-weight: 200;
+                color: $base-menu-color;
+              }
+              .user-item-name {
+                display: flex;
+              }
+            }
+          }
+                    
+          .user-item-checkbox{
+            display: flex;
+            align-items: center;
+            justify-content: end;
+          }
+          
+
+        }
+        .user-item:hover {
+          background-color: #424853bd;
+        }
+        
+      }
+
+      .more-users-btn {
+        @include button-default;
+        background-color: $button-bg-color;
+        color: $base-menu-color;
+        text-transform: uppercase;
+        font-weight: 700;
+        width: 100%;
+      }
+    }
+  }
+  .user {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    height: calc(100vh - 100px);
+    color: $base-menu-color;
+    header {
+      display: flex;
+      justify-content: center;
+    }
+    .user-details {
+      display: flex;
+      img {
+        margin-right: 10px;
+      }
+      .user-details-text-name {
+        color: $base-list-color;
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .user-details-text {
+        text-align: start;
+        .user-details-text-item span:first-child {
+          font-weight: 700;
+        }
+      }
+      .user-details-text:first-child {
+        font-weight: 700;
+      }
+    }
+    
+  }
+}
+
+.notFoundPage{
+  background-color: $app-bg-color;
+  width: 100%;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  align-items: center;
+  color: $tabs-bg-color;
+  font-size: 26px;
+  font-weight: 700;
 }

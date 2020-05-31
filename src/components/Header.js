@@ -1,15 +1,22 @@
 import React from 'react';
-import './Style.scss';
+import {connect} from 'react-redux'
+import {Link} from "react-router-dom";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        
-      </header>
+const Header = (props)=> (
+  
+    <div className="header">
+      { props.isUserSelected && (<Link to='/'><button className='backToListBtn' onClick={props.clearSelectedUser}>Back</button></Link>)}
+      <h2>Header</h2>
     </div>
-  );
-}
-
-export default App;
+)
+  
+export default connect(
+  state=>({
+    isUserSelected: state.isUserSelected
+  }),
+  dispatch =>({
+    clearSelectedUser: ()=>{
+      dispatch({type: 'SELECT_USER', payload: false})
+    }
+  })
+)(Header);
